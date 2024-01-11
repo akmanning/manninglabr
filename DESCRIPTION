@@ -27,3 +27,6 @@ Imports:
     stringr,
     table1,
     withr
+    IRdisplay,
+    table1
+
