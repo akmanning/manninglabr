@@ -6,9 +6,6 @@ cohorts_summary_demographics <- function(new.data.set) {
   # This function creates a table of demographics for a given dataset
   # new.data.set is the dataset to be summarized
 
-
-
-
   # options(repr.vector.quote=FALSE)
   label(new.data.set$age) <- "Age"
   units(new.data.set$age) <- "Years"
