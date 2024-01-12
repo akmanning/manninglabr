@@ -62,7 +62,7 @@ create_person_dataset_with_sql <- function(dataset_person_sql, label) {
   return(list(
     label = label,
     dataset_person_sql = dataset_person_sql,
-    query_sql = query_sql,
+    dataset_person_df = dataset_person_df,
     query_result_path = query_result_path
   ))
 }
