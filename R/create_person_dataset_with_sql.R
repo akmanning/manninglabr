@@ -36,10 +36,10 @@ create_person_dataset_with_sql <- function(dataset_person_sql, label) {
   }
 
   col_types <- readr::cols(
-    gender = col_character(),
-    race = col_character(),
-    ethnicity = col_character(),
-    sex_at_birth = col_character()
+    gender = readr::col_character(),
+    race = readr::col_character(),
+    ethnicity = readr::col_character(),
+    sex_at_birth = readr::col_character()
   )
 
   dataset_person_df <- dplyr::bind_rows(
