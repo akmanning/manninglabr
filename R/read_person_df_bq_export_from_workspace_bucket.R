@@ -3,9 +3,7 @@
 #' @return A data frame with the contents of the export.
 #' This query represents dataset "All Participants" for domain "person" and was generated for All of Us Controlled Tier Dataset v7
 #' @export
-#' @examples
-#' dataset_77466240_person_df <- read_bq_export_from_workspace_bucket(person_77466240_path)
-read_bq_export_from_workspace_bucket <- function(export_path) {
+read_person_df_bq_export_from_workspace_bucket <- function(export_path) {
   col_types <- cols(gender = col_character(), race = col_character(), ethnicity = col_character(), sex_at_birth = col_character())
   bind_rows(
     map(

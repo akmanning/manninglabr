@@ -21,8 +21,3 @@ a list with the OMOP concept ID, the query SQL, and the path to the query result
 \description{
 create a dataset with drug exposure data for a given OMOP concept ID
 }
-\examples{
-OMOPCONCEPTID <- 21600713
-tmp <- create_drug_exposure_dataset_with_OMOP_CONCEPT_ID(OMOPCONCEPTID)
-tmp.person_ids <- get_person_ids_with_drug_exposure(tmp$query_result_path)
-}

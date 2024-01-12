@@ -3,8 +3,7 @@
 \docType{data}
 \name{drug_exposure_query_sql}
 \alias{drug_exposure_query_sql}
-\title{quote: This query represents dataset "all_insulin_example" for domain "drug" and was generated for All of Us Controlled Tier Dataset v7
-Documentation exists in the internally available notebook: Phenotype Harmonization in the All of Us Cohort v7 12Dec2023 AKM.ipynb}
+\title{SQL query from the All of Us Research Workbench to create the drug exposure dataset}
 \format{
 An object of class \code{character} of length 1.
 }
@@ -15,6 +14,7 @@ An object of class \code{character} of length 1.
 drug_exposure_query_sql
 }
 \description{
+This query was taken 'verbatim' from the All of Us Research Workbench on December 12, 2023.
 quote: This query represents dataset "all_insulin_example" for domain "drug" and was generated for All of Us Controlled Tier Dataset v7
 Documentation exists in the internally available notebook: Phenotype Harmonization in the All of Us Cohort v7 12Dec2023 AKM.ipynb
 }

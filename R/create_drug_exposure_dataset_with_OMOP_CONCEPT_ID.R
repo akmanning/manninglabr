@@ -3,10 +3,7 @@
 #' @param query_sql the SQL query to use to create the dataset
 #' @return a list with the OMOP concept ID, the query SQL, and the path to the query results
 #' @export
-#' @examples
-#' OMOPCONCEPTID <- 21600713
-#' tmp <- create_drug_exposure_dataset_with_OMOP_CONCEPT_ID(OMOPCONCEPTID)
-#' tmp.person_ids <- get_person_ids_with_drug_exposure(tmp$query_result_path)
+
 create_drug_exposure_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_sql = drug_exposure_query_sql) {
   query_sql <- query_sql %>% str_replace_all("XYZ_OMOPCONCEPTID_XYZ", as.character(OMOPCONCEPTID))
 

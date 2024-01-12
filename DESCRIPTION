@@ -16,7 +16,6 @@ Depends:
 LazyData: true
 Imports: 
     bigrquery,
-    cli,
     dplyr,
     glue,
     IRdisplay,
@@ -25,8 +24,5 @@ Imports:
     readr,
     rlang,
     stringr,
-    table1,
-    withr
-    IRdisplay,
     table1
 
