@@ -59,7 +59,12 @@ create_person_dataset_with_sql <- function(dataset_person_sql, label) {
     )
   )
 
+<<<<<<< HEAD
   dataset_person_df <- mutate(dataset_person_df,age = lubridate::year(today()) - lubridate::year(date_of_birth))
+=======
+  dataset_person_df <- dataset_person_df %>%
+    mutate(age = lubridate::year(today()) - lubridate::year(date_of_birth))
+>>>>>>> 4f7462ca8296f05058668387ca2ebb6f7f734cff
 
   return(list(
     label = label,
