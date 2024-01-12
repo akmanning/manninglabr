@@ -12,8 +12,8 @@ create_person_dataset_with_sql <- function(dataset_person_sql, label) {
     Sys.getenv("WORKSPACE_BUCKET"),
     "bq_exports",
     "person_df_XYZ_LABEL_XYZ",
-    "person_df_XYZ_LABEL_XYZ_*.csv"
-  ) %>% stringr::str_replace_all("XYZ_LABEL_XYZ", label)
+    "person_df_XYZ_LABEL_XYZ_*.csv")
+  query_result_path <- stringr::str_replace_all(query_result_path,"XYZ_LABEL_XYZ", label)
 
   message(stringr::str_glue(
     "The data will be written to {query_result_path}. Use this path when reading ",
