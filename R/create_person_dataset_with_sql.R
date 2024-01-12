@@ -47,7 +47,7 @@ create_person_dataset_with_sql <- function(dataset_person_sql, label) {
       system2("gsutil", args = c("ls", query_result_path), stdout = TRUE, stderr = TRUE),
       function(csv) {
         message(stringr::str_glue("Loading {csv}."))
-        chunk <- readr::read_csv(pipe(str_glue("gsutil cat {csv}")),
+        chunk <- readr::read_csv(pipe(stringr::str_glue("gsutil cat {csv}")),
           col_types = col_types,
           show_col_types = FALSE
         )
