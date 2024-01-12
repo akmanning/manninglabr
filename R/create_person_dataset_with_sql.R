@@ -13,7 +13,7 @@ create_person_dataset_with_sql <- function(dataset_person_sql, label) {
     "bq_exports",
     "person_df_XYZ_LABEL_XYZ",
     "person_df_XYZ_LABEL_XYZ_*.csv"
-  ) %>% stringr::str_replace_all("_XYZ_LABEL_XYZ", label)
+  ) %>% stringr::str_replace_all("XYZ_LABEL_XYZ", label)
 
   message(stringr::str_glue(
     "The data will be written to {query_result_path}. Use this path when reading ",
@@ -46,7 +46,7 @@ create_person_dataset_with_sql <- function(dataset_person_sql, label) {
     purrr::map(
       system2("gsutil", args = c("ls", query_result_path), stdout = TRUE, stderr = TRUE),
       function(csv) {
-        message(str_glue("Loading {csv}."))
+        message(stringr::str_glue("Loading {csv}."))
         chunk <- readr::read_csv(pipe(str_glue("gsutil cat {csv}")),
           col_types = col_types,
           show_col_types = FALSE
@@ -58,6 +58,9 @@ create_person_dataset_with_sql <- function(dataset_person_sql, label) {
       }
     )
   )
+
+  dataset_person_df <- dataset_person_df %>%
+    mutate(age = lubridate::year(today()) - lubridate::year(date_of_birth))
 
   return(list(
     label = label,

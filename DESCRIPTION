@@ -20,9 +20,9 @@ Imports:
     glue,
     IRdisplay,
     lifecycle,
+    lubridate,
     purrr,
     readr,
     rlang,
     stringr,
     table1
-
