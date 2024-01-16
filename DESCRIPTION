@@ -21,9 +21,12 @@ Imports:
     IRdisplay,
     lifecycle,
     lubridate,
+    magrittr,
     purrr,
     readr,
     rlang,
     skimr,
+    stats,
     stringr,
-    table1
+    table1,
+    utils

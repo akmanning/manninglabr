@@ -4,10 +4,12 @@
 \alias{cohorts_summary_demographics}
 \title{Creates demographic summary table}
 \usage{
-cohorts_summary_demographics(new.data.set)
+cohorts_summary_demographics(person_df, true_false_variable = NA)
 }
 \arguments{
-\item{new.data.set}{the dataset to be summarized}
+\item{person_df}{the dataset to be summarized}
+
+\item{true_false_variable}{the name of a true/false variable in the dataset to stratify upon}
 }
 \value{
 a table of demographics for a given dataset

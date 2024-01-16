@@ -5,7 +5,8 @@
 \alias{drug_exposure_query_sql}
 \title{SQL query from the All of Us Research Workbench to create the drug exposure dataset}
 \format{
-An object of class \code{character} of length 1.
+\subsection{\code{drug_exposure_query_sql} is a character vector with 1 element}{
+}
 }
 \source{
 \url{https://workbench.researchallofus.org/workspaces/aou-rw-c8211e3d/commonmetabolicdiseasegeneticassociationanalysisv7/notebooks/preview/Phenotype\%20Harmonization\%20in\%20the\%20All\%20of\%20Us\%20Cohort\%20v7\%2012Dec2023\%20AKM.ipynb}
