@@ -39,3 +39,187 @@ create_condition_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_s
 }
 
 utils::globalVariables(c("condition_query_sql"))
+
+#' @title Get the IDs of the people in a condition dataset
+#' @description
+#' This function returns the person_ids of the people in a condition dataset.
+#' @param query_result_path The path to the query result.
+#' @return A vector of person_ids.
+#' @export
+get_person_ids_with_condition <-  function(query_result_path) {
+  dataset_condition_df <- read_condition_bq_export_from_workspace_bucket(query_result_path)
+  if (nrow(dataset_condition_df) == 0) {
+    print("No data found. Please check your OMOP_CONCEPT_ID.")
+  } else {
+    print(paste("There are", nrow(dataset_condition_df), "rows in the dataset."))
+    print(paste("There are", length(unique(dataset_condition_df$person_id)), "unique study IDs."))
+  }
+  return(unique(dataset_condition_df$person_id))
+}
+
+#' @title Read condition dataset from workspace bucket
+#' @description
+#' This function reads a condition dataset from the workspace bucket.
+#' @param export_path The path to the query result.
+#' @return A tibble of condition data.
+#' @export
+read_condition_bq_export_from_workspace_bucket <- function(export_path) {
+  col_types <- readr::cols(standard_concept_name = readr::col_character(),
+                           standard_concept_code = readr::col_character(),
+                           standard_vocabulary = readr::col_character(),
+                           condition_type_concept_name = readr::col_character(),
+                           stop_reason = readr::col_character(),
+                           visit_occurrence_concept_name = readr::col_character(),
+                           condition_source_value = readr::col_character(),
+                           source_concept_name = readr::col_character(),
+                           source_concept_code = readr::col_character(),
+                           source_vocabulary = readr::col_character(),
+                           condition_status_source_value = readr::col_character(),
+                           condition_status_concept_name = readr::col_character())
+  dplyr::bind_rows(
+    purrr::map(system2('gsutil', args = c('ls', export_path), stdout = TRUE, stderr = TRUE),
+        function(csv) {
+          message(stringr::str_glue('Loading {csv}.'))
+          chunk <- readr::read_csv(pipe(stringr::str_glue('gsutil cat {csv}')),
+                                   col_types = col_types, show_col_types = FALSE)
+          if (is.null(col_types)) {
+            col_types <- stats::spec(chunk)
+          }
+          chunk
+        }))
+}
+
+# This query represents dataset "t1d_cohort_example_disease_concept_set" for domain "condition" and was generated for All of Us Controlled Tier Dataset v7
+# January 16, 2024
+condition_query_sql <- paste("
+    SELECT
+        c_occurrence.person_id,
+        c_occurrence.condition_concept_id,
+        c_standard_concept.concept_name as standard_concept_name,
+        c_standard_concept.concept_code as standard_concept_code,
+        c_standard_concept.vocabulary_id as standard_vocabulary,
+        c_occurrence.condition_start_datetime,
+        c_occurrence.condition_end_datetime,
+        c_occurrence.condition_type_concept_id,
+        c_type.concept_name as condition_type_concept_name,
+        c_occurrence.stop_reason,
+        c_occurrence.visit_occurrence_id,
+        visit.concept_name as visit_occurrence_concept_name,
+        c_occurrence.condition_source_value,
+        c_occurrence.condition_source_concept_id,
+        c_source_concept.concept_name as source_concept_name,
+        c_source_concept.concept_code as source_concept_code,
+        c_source_concept.vocabulary_id as source_vocabulary,
+        c_occurrence.condition_status_source_value,
+        c_occurrence.condition_status_concept_id,
+        c_status.concept_name as condition_status_concept_name
+    FROM
+        ( SELECT
+            *
+        FROM
+            `condition_occurrence` c_occurrence
+        WHERE
+            (
+                condition_concept_id IN  (
+                    SELECT
+                        DISTINCT c.concept_id
+                    FROM
+                        `cb_criteria` c
+                    JOIN
+                        (
+                            select
+                                cast(cr.id as string) as id
+                            FROM
+                                `cb_criteria` cr
+                            WHERE
+                                concept_id IN (
+                                    XYZ_OMOPCONCEPTID_XYZ
+                                )
+                                AND full_text LIKE '%_rank1]%'
+                        ) a
+                            ON (
+                                c.path LIKE CONCAT('%.',
+                            a.id,
+                            '.%')
+                            OR c.path LIKE CONCAT('%.',
+                            a.id)
+                            OR c.path LIKE CONCAT(a.id,
+                            '.%')
+                            OR c.path = a.id)
+                        WHERE
+                            is_standard = 1
+                            AND is_selectable = 1
+                        )
+                )
+                AND (
+                    c_occurrence.PERSON_ID IN (
+                        SELECT
+                            distinct person_id
+                        FROM
+                            `cb_search_person` cb_search_person
+                        WHERE
+                            cb_search_person.person_id IN (
+                                SELECT
+                                    criteria.person_id
+                                FROM
+                                    (SELECT
+                                        DISTINCT person_id,
+                                        entry_date,
+                                        concept_id
+                                    FROM
+                                        `cb_search_all_events`
+                                    WHERE
+                                        (
+                                            concept_id IN (
+                                                SELECT
+                                                    DISTINCT c.concept_id
+                                                FROM
+                                                    `cb_criteria` c
+                                                JOIN
+                                                    (
+                                                        select
+                                                            cast(cr.id as string) as id
+                                                        FROM
+                                                            `cb_criteria` cr
+                                                        WHERE
+                                                            concept_id IN (XYZ_OMOPCONCEPTID_XYZ)
+                                                            AND full_text LIKE '%_rank1]%'
+                                                    ) a
+                                                        ON (
+                                                            c.path LIKE CONCAT('%.',
+                                                        a.id,
+                                                        '.%')
+                                                        OR c.path LIKE CONCAT('%.',
+                                                        a.id)
+                                                        OR c.path LIKE CONCAT(a.id,
+                                                        '.%')
+                                                        OR c.path = a.id)
+                                                    WHERE
+                                                        is_standard = 1
+                                                        AND is_selectable = 1
+                                                    )
+                                                    AND is_standard = 1
+                                            )
+                                        ) criteria
+                                    ) ))
+                        ) c_occurrence
+                    LEFT JOIN
+                        `concept` c_standard_concept
+                            ON c_occurrence.condition_concept_id = c_standard_concept.concept_id
+                    LEFT JOIN
+                        `concept` c_type
+                            ON c_occurrence.condition_type_concept_id = c_type.concept_id
+                    LEFT JOIN
+                        `visit_occurrence` v
+                            ON c_occurrence.visit_occurrence_id = v.visit_occurrence_id
+                    LEFT JOIN
+                        `concept` visit
+                            ON v.visit_concept_id = visit.concept_id
+                    LEFT JOIN
+                        `concept` c_source_concept
+                            ON c_occurrence.condition_source_concept_id = c_source_concept.concept_id
+                    LEFT JOIN
+                        `concept` c_status
+                            ON c_occurrence.condition_status_concept_id = c_status.concept_id", sep="")
+
+

@@ -29,7 +29,7 @@ cohorts_summary_demographics <- function(person_df, true_false_variable = NA) {
   table1::label(person_df$race) <- "Reported Race"
   table1::label(person_df$ethnicity) <- "Reported Ethnicity"
   if(!is.na(true_false_variable)) {
-    table1::label(person_df$true_false_variable) <- "Stratification Variable"
+    table1::label(person_df[,true_false_variable]) <- "Stratification Variable"
     to.html <- table1::table1(stats::as.formula(paste("~ age + gender + sex_at_birth + race + ethnicity | as.factor(",true_false_variable,")")),
                               data = person_df,
                               render.continuous = my.render.cont,
