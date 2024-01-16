@@ -47,13 +47,13 @@ cohorts_summary_demographics <- function(person_df, true_false_variable = NA) {
 
 
 my.render.cont <- function(x) {
-  with(stats.apply.rounding(stats.default(x), digits = 2), c("",
+  with( table1::stats.apply.rounding(stats.default(x), digits = 2), c("",
     "Mean (SD)" = sprintf("%s (&plusmn; %s)", MEAN, SD)
   ))
 }
 
 my.render.cat <- function(x) {
-  c("", sapply(stats.default(x), function(y) {
+  c("", sapply(table1::stats.default(x), function(y) {
     with(
       y,
       sprintf("%d (%0.0000f %%)", FREQ, PCT)
