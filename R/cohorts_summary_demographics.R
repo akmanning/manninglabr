@@ -47,7 +47,7 @@ cohorts_summary_demographics <- function(person_df, true_false_variable = NA) {
 
 
 my.render.cont <- function(x) {
-  with( table1::stats.apply.rounding(stats.default(x), digits = 2), c("",
+  with( table1::stats.apply.rounding(table1::stats.default(x), digits = 2), c("",
     "Mean (SD)" = sprintf("%s (&plusmn; %s)", MEAN, SD)
   ))
 }
