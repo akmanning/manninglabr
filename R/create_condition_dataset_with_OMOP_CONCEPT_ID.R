@@ -38,8 +38,6 @@ create_condition_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_s
   return(list(OMOPCONCEPTID = OMOPCONCEPTID, query_sql = query_sql, query_result_path = query_result_path))
 }
 
-utils::globalVariables(c("condition_query_sql"))
-
 #' @title Get the IDs of the people in a condition dataset
 #' @description
 #' This function returns the person_ids of the people in a condition dataset.
