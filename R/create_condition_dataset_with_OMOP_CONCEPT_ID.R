@@ -38,54 +38,9 @@ create_condition_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_s
   return(list(OMOPCONCEPTID = OMOPCONCEPTID, query_sql = query_sql, query_result_path = query_result_path))
 }
 
-#' @title Get the IDs of the people in a condition dataset
-#' @description
-#' This function returns the person_ids of the people in a condition dataset.
-#' @param query_result_path The path to the query result.
-#' @return A vector of person_ids.
-#' @export
-get_person_ids_with_condition <-  function(query_result_path) {
-  dataset_condition_df <- read_condition_bq_export_from_workspace_bucket(query_result_path)
-  if (nrow(dataset_condition_df) == 0) {
-    print("No data found. Please check your OMOP_CONCEPT_ID.")
-  } else {
-    print(paste("There are", nrow(dataset_condition_df), "rows in the dataset."))
-    print(paste("There are", length(unique(dataset_condition_df$person_id)), "unique study IDs."))
-  }
-  return(unique(dataset_condition_df$person_id))
-}
 
-#' @title Read condition dataset from workspace bucket
-#' @description
-#' This function reads a condition dataset from the workspace bucket.
-#' @param export_path The path to the query result.
-#' @return A tibble of condition data.
-#' @export
-read_condition_bq_export_from_workspace_bucket <- function(export_path) {
-  col_types <- readr::cols(standard_concept_name = readr::col_character(),
-                           standard_concept_code = readr::col_character(),
-                           standard_vocabulary = readr::col_character(),
-                           condition_type_concept_name = readr::col_character(),
-                           stop_reason = readr::col_character(),
-                           visit_occurrence_concept_name = readr::col_character(),
-                           condition_source_value = readr::col_character(),
-                           source_concept_name = readr::col_character(),
-                           source_concept_code = readr::col_character(),
-                           source_vocabulary = readr::col_character(),
-                           condition_status_source_value = readr::col_character(),
-                           condition_status_concept_name = readr::col_character())
-  dplyr::bind_rows(
-    purrr::map(system2('gsutil', args = c('ls', export_path), stdout = TRUE, stderr = TRUE),
-        function(csv) {
-          message(stringr::str_glue('Loading {csv}.'))
-          chunk <- readr::read_csv(pipe(stringr::str_glue('gsutil cat {csv}')),
-                                   col_types = col_types, show_col_types = FALSE)
-          if (is.null(col_types)) {
-            col_types <- stats::spec(chunk)
-          }
-          chunk
-        }))
-}
+
+
 
 # This query represents dataset "t1d_cohort_example_disease_concept_set" for domain "condition" and was generated for All of Us Controlled Tier Dataset v7
 # January 16, 2024
