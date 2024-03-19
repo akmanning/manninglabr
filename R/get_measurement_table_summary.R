@@ -11,6 +11,7 @@ get_measurement_table_summary <- function(query_result_path) {
     group_by(standard_concept_name, measurement_type_concept_name, operator_concept_name, unit_concept_name, visit_occurrence_concept_name) %>%
     summarise(
       count = n(),
+      missing = sum(is.na(value_as_number)),
       mean = mean(value_as_number, na.rm = TRUE),
       sd = sd(value_as_number, na.rm = TRUE),
       median = median(value_as_number, na.rm = TRUE),
