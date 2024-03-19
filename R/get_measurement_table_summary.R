@@ -8,7 +8,9 @@ get_measurement_table_summary <- function(query_result_path) {
   dataset_measurement_df <- read_measurement_bq_export_from_workspace_bucket(query_result_path)
   # Get the summary of the non-missing values stratified by standard_concept_name, measurement_type_concept_name, operator_concept_name,unit_concept_name, and visit_occurrence_concept_name
   dataset_measurement_summary <- dataset_measurement_df %>%
-    group_by(standard_concept_name, measurement_type_concept_name, operator_concept_name, unit_concept_name, visit_occurrence_concept_name) %>%
+    group_by(unit_concept_name, operator_concept_name,
+             visit_occurrence_concept_name,
+             measurement_type_concept_name) %>%
     summarise(
       count = n(),
       missing = sum(is.na(value_as_number)),
