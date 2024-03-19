@@ -3,7 +3,6 @@
 #' @return A data frame with the following columns: standard_concept_name, measurement_type_concept_name, operator_concept_name, unit_concept_name, visit_occurrence_concept_name, and summary statistics.
 #' @param query_result_path The path to the query result.
 #' @export
-#'
 get_measurement_table_summary <- function(query_result_path) {
   # Read the measurement dataset
   dataset_measurement_df <- read_measurement_bq_export_from_workspace_bucket(query_result_path)
