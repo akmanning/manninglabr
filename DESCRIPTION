@@ -8,7 +8,7 @@ Description: Tools and utilities built for the Manning lab research team.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 URL: https://github.com/akmanning/manninglabr
 BugReports: https://github.com/akmanning/manninglabr/issues
 Depends: 
@@ -30,3 +30,6 @@ Imports:
     stringr,
     table1,
     utils
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
