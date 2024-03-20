@@ -9,18 +9,18 @@
 #' @export
 get_measurement_table_summary <- function(dataset_measurement_df,filter_unit_concept_name=NULL, filter_operator_concept_name=NULL, filter_visit_occurrence_concept_name=NULL, filter_measurement_type_concept_name=NULL) {
   dataset_measurement_df_tmp <- dataset_measurement_df
-  
+
   if(length(filter_unit_concept_name)>0) {
   dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% filter(unit_concept_name %in% filter_unit_concept_name)
     }
   print(table("unit_concept_name"=dataset_measurement_df_tmp$unit_concept_name,useNA="always"))
-  
+
   if(length(filter_operator_concept_name)>0) {
   dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% filter(operator_concept_name %in% filter_operator_concept_name)
     }
   print(table("operator_concept_name"=dataset_measurement_df_tmp$operator_concept_name,useNA="always"))
 
-        
+
     if(length(filter_visit_occurrence_concept_name)>0) {
       print("Filtering by visit_occurrence_concept_name")
   dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% filter(visit_occurrence_concept_name %in% filter_visit_occurrence_concept_name)
@@ -41,7 +41,7 @@ get_measurement_table_summary <- function(dataset_measurement_df,filter_unit_con
     summarise(
       count = n(),
       missing = sum(is.na(value_as_number)),
-      n.unique = length(unique(person_id))
+      n.unique = length(unique(person_id)),
       mean = mean(value_as_number, na.rm = TRUE),
       sd = sd(value_as_number, na.rm = TRUE),
       median = median(value_as_number, na.rm = TRUE),
