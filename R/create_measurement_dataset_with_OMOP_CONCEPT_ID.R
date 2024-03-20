@@ -39,7 +39,7 @@ create_measurement_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query
 
 
   # Return a list containing the OMOP_CONCEPT_ID, query_sql, and query_result_path
-  return(list(OMOPCONCEPTID, query_sql, query_result_path))
+  return(list(OMOPCONCEPTID = OMOPCONCEPTID, query_sql = query_sql, query_result_path = query_result_path))
 }
 
 # # This query represents dataset "creatinine_mass-volume_in_serum_plasma_LOINC_2160-0_OMOP_3016723" for domain "measurement" and was generated for All of Us Controlled Tier Dataset v7
