@@ -6,6 +6,7 @@
 \usage{
 get_filtered_measurement_df(
   dataset_measurement_df,
+  filter_missing_values_as_number = FALSE,
   filter_min = NULL,
   filter_max = NULL,
   filter_unit_concept_name = NULL,
@@ -16,6 +17,8 @@ get_filtered_measurement_df(
 }
 \arguments{
 \item{dataset_measurement_df}{Data frame as output from create_measurement_dataset_with_OMOP_CONCEPT_ID function}
+
+\item{filter_missing_values_as_number}{filter missing values_as_number rows. example TRUE or FALSE}
 
 \item{filter_min}{minimum value for filtering with >=}
 
