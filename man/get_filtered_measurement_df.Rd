@@ -6,6 +6,8 @@
 \usage{
 get_filtered_measurement_df(
   dataset_measurement_df,
+  filter_min = NULL,
+  filter_max = NULL,
   filter_unit_concept_name = NULL,
   filter_operator_concept_name = NULL,
   filter_visit_occurrence_concept_name = NULL,
@@ -14,6 +16,10 @@ get_filtered_measurement_df(
 }
 \arguments{
 \item{dataset_measurement_df}{Data frame as output from create_measurement_dataset_with_OMOP_CONCEPT_ID function}
+
+\item{filter_min}{minimum value for filtering with >=}
+
+\item{filter_max}{maximum value for filtering with <=}
 
 \item{filter_unit_concept_name}{list of string values for filtering. example c("value1", "value2")}
 

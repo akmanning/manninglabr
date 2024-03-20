@@ -1,8 +1,8 @@
 #' @title get_filtered_measurement_df
 #' @description This function takes an data frame created by the create_measurement_dataset_with_OMOP_CONCEPT_ID function and applies the filters operator_concept_name, unit_concept_name, visit_occurrence_concept_name and measurement_type_concept_name
 #' @param dataset_measurement_df Data frame as output from create_measurement_dataset_with_OMOP_CONCEPT_ID function
-#' @param filter_min minimum value for filtering
-#' @param filter_max maximum value for filtering
+#' @param filter_min minimum value for filtering with >=
+#' @param filter_max maximum value for filtering with <=
 #' @param filter_unit_concept_name list of string values for filtering. example c("value1", "value2")
 #' @param filter_operator_concept_name  list of string values for filtering. example c("value1", "value2")
 #' @param filter_visit_occurrence_concept_name  list of string values for filtering. example c("value1", "value2")
