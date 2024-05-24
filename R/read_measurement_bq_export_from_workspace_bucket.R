@@ -20,7 +20,7 @@ read_measurement_bq_export_from_workspace_bucket <- function(export_path) {
                     source_vocabulary = readr::col_character(),
                     unit_source_value = readr::col_character(),
                     value_source_value = readr::col_character())
-  bind_rows(
+  dplyr::bind_rows(
     purrr::map(system2('gsutil', args = c('ls', export_path), stdout = TRUE, stderr = TRUE),
         function(csv) {
           message(stringr::str_glue('Loading {csv}.'))
