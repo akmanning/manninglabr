@@ -5,6 +5,7 @@
 #' @return A tibble of drug exposure data.
 #' @export
 read_measurement_bq_export_from_workspace_bucket <- function(export_path) {
+
   col_types <- readr::cols(standard_concept_name = readr::col_character(),
                     standard_concept_code = readr::col_character(),
                     standard_vocabulary = readr::col_character(),
