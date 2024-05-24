@@ -8,3 +8,17 @@
 #' @source <https://workbench.researchallofus.org/workspaces/aou-rw-c8211e3d/commonmetabolicdiseasegeneticassociationanalysisv7/notebooks/preview/Phenotype%20Harmonization%20in%20the%20All%20of%20Us%20Cohort%20v7%2012Dec2023%20AKM.ipynb>
 #'
 "drug_exposure_query_sql"
+
+#'
+#' This query represents dataset "t1d_cohort_example_disease_concept_set" for domain "condition" and was generated for All of Us Controlled Tier Dataset v7
+#' January 16, 2024
+#'
+#' @format ## `condition_query_sql` is a character vector with 1 element
+#'
+"condition_query_sql"
+
+#' measurement_query_sql
+#' This query represents dataset "creatinine_mass-volume_in_serum_plasma_LOINC_2160-0_OMOP_3016723" for domain "measurement" and was generated for All of Us Controlled Tier Dataset v7
+#' @format ## `measurement_query_sql` is a character vector with 1 element
+"measurement_query_sql"
+
