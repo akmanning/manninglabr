@@ -6,6 +6,7 @@
 \usage{
 get_measurement_table_summary(
   dataset_measurement_df,
+  filter_missing_values_as_number = FALSE,
   filter_unit_concept_name = NULL,
   filter_operator_concept_name = NULL,
   filter_visit_occurrence_concept_name = NULL,
@@ -14,6 +15,8 @@ get_measurement_table_summary(
 }
 \arguments{
 \item{dataset_measurement_df}{Data frame as output from create_measurement_dataset_with_OMOP_CONCEPT_ID function}
+
+\item{filter_missing_values_as_number}{logical value for filtering missing values. Default is FALSE.}
 
 \item{filter_unit_concept_name}{list of string values for filtering. example c("value1", "value2")}
 
