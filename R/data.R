@@ -22,11 +22,9 @@
 #' @format ## `measurement_query_sql` is a character vector with 1 element
 "measurement_query_sql"
 
-<<<<<<< HEAD
+
 #' procedure_query_sql
 #' This query represents dataset "kidney_procedure_OMOP_4322471" for domain "procedure" and was generated for All of Us Controlled Tier Dataset v7
 #' @format ## `procedure_query_sql` is a character vector with 1 element
 "dataset_procedure_sql"
 
-=======
->>>>>>> c6e1bc556eb17d9bfeea84e9b6acf84e8cf3d082
