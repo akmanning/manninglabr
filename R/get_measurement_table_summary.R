@@ -11,34 +11,34 @@ get_measurement_table_summary <- function(dataset_measurement_df,filter_unit_con
   dataset_measurement_df_tmp <- dataset_measurement_df
 
   if(length(filter_unit_concept_name)>0) {
-  dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% filter(unit_concept_name %in% filter_unit_concept_name)
+  dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% dplyr::filter(unit_concept_name %in% filter_unit_concept_name)
     }
   print(table("unit_concept_name"=dataset_measurement_df_tmp$unit_concept_name,useNA="always"))
 
   if(length(filter_operator_concept_name)>0) {
-  dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% filter(operator_concept_name %in% filter_operator_concept_name)
+  dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% dplyr::filter(operator_concept_name %in% filter_operator_concept_name)
     }
   print(table("operator_concept_name"=dataset_measurement_df_tmp$operator_concept_name,useNA="always"))
 
 
     if(length(filter_visit_occurrence_concept_name)>0) {
       print("Filtering by visit_occurrence_concept_name")
-  dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% filter(visit_occurrence_concept_name %in% filter_visit_occurrence_concept_name)
+  dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% dplyr::filter(visit_occurrence_concept_name %in% filter_visit_occurrence_concept_name)
     }
   print(table("visit_concept_name"=dataset_measurement_df_tmp$visit_occurrence_concept_name,useNA="always"))
 
     if(length(filter_measurement_type_concept_name)>0) {
-  dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% filter(measurement_type_concept_name %in% filter_measurement_type_concept_name)
+  dataset_measurement_df_tmp <- dataset_measurement_df_tmp %>% dplyr::filter(measurement_type_concept_name %in% filter_measurement_type_concept_name)
     }
     print(table("measurement_concept_name"=dataset_measurement_df_tmp$measurement_type_concept_name,useNA="always"))
 
 
   # Get the summary of the non-missing values stratified by standard_concept_name, measurement_type_concept_name, operator_concept_name,unit_concept_name, and visit_occurrence_concept_name
   dataset_measurement_summary <- dataset_measurement_df_tmp %>%
-    group_by(unit_concept_name, operator_concept_name,
+    dplyr::group_by(unit_concept_name, operator_concept_name,
              visit_occurrence_concept_name,
              measurement_type_concept_name) %>%
-    summarise(
+    dplyr::summarise(
       count = n(),
       missing = sum(is.na(value_as_number)),
       n.unique = length(unique(person_id)),
