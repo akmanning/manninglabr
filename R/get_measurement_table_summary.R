@@ -39,7 +39,7 @@ get_measurement_table_summary <- function(dataset_measurement_df,filter_unit_con
              visit_occurrence_concept_name,
              measurement_type_concept_name) %>%
     dplyr::summarise(
-      count = n(),
+      count = dplyr::n(),
       missing = sum(is.na(value_as_number)),
       n.unique = length(unique(person_id)),
       mean = mean(value_as_number, na.rm = TRUE),
