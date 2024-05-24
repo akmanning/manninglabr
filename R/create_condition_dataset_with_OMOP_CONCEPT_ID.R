@@ -44,6 +44,7 @@ create_condition_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_s
 
 # This query represents dataset "t1d_cohort_example_disease_concept_set" for domain "condition" and was generated for All of Us Controlled Tier Dataset v7
 # January 16, 2024
+#' @export
 condition_query_sql <- paste("
     SELECT
         c_occurrence.person_id,

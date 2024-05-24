@@ -36,7 +36,3 @@ create_drug_exposure_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, que
   return(list(OMOPCONCEPTID = OMOPCONCEPTID, query_sql = query_sql, query_result_path = query_result_path))
 }
 
-
-
-utils::globalVariables(c("drug_exposure_query_sql", "condition_query_sql"))
-

@@ -2,6 +2,7 @@
 
 export("%>%")
 export(cohorts_summary_demographics)
+export(condition_query_sql)
 export(create_condition_dataset_with_OMOP_CONCEPT_ID)
 export(create_drug_exposure_dataset_with_OMOP_CONCEPT_ID)
 export(create_measurement_dataset_with_OMOP_CONCEPT_ID)

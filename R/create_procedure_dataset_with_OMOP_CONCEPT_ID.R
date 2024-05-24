@@ -38,6 +38,7 @@ create_procedure_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_s
 }
 
 # This query represents dataset "kidney_procedure_OMOP_4322471" for domain "procedure" and was generated for All of Us Controlled Tier Dataset v7
+#' @export
 dataset_procedure_sql <- "
     SELECT
         procedure.person_id,
