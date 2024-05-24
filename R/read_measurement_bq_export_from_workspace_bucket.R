@@ -24,7 +24,7 @@ read_measurement_bq_export_from_workspace_bucket <- function(export_path) {
     purrr::map(system2('gsutil', args = c('ls', export_path), stdout = TRUE, stderr = TRUE),
         function(csv) {
           message(stringr::str_glue('Loading {csv}.'))
-          chunk <- readr::read_csv(pipe(stringr::str_glue('gsutil cat {csv}')), col_types = readr::col_types, show_col_types = FALSE)
+          chunk <- readr::read_csv(pipe(stringr::str_glue('gsutil cat {csv}')), col_types = col_types, show_col_types = FALSE)
           if (is.null(col_types)) {
             col_types <- readr::spec(chunk)
           }
