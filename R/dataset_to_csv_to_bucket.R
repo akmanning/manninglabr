@@ -3,7 +3,7 @@
 #' @param name_to_save the name of the dataset to be saved
 #' @return a csv file in the bucket
 #' @export
-dataset_to_csv_to_bucket <- function(name_to_save) {
+dataset_to_csv_to_bucket <- function(name_to_save, dataset_df = all_participants$dataset_person_df) {
   # create time stamp and get username
   today <-  strftime(lubridate::now(), "%Y-%m-%d")
   owner <- str_replace(string = Sys.getenv("OWNER_EMAIL"),pattern="@researchallofus.org",replacement = "")
@@ -11,7 +11,7 @@ dataset_to_csv_to_bucket <- function(name_to_save) {
   filename <- paste(name_to_save,"_by_",owner,"_on_",today,".csv",sep="")
 
   # store the dataframe in current workspace
-  write_excel_csv(all_participants$dataset_person_df, filename)
+  write_excel_csv(dataset_df, filename)
 
   # Get the bucket name
   my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
