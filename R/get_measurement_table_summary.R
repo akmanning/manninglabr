@@ -40,7 +40,7 @@ get_measurement_table_summary <- function(dataset_measurement_df,filter_missing_
 
   # Get the summary of the non-missing values stratified by standard_concept_name, measurement_type_concept_name, operator_concept_name,unit_concept_name, and visit_occurrence_concept_name
   dataset_measurement_summary <- dataset_measurement_df_tmp %>%
-    dplyr::group_by(unit_concept_name, operator_concept_name,
+    dplyr::group_by(measurement_concept_id, standard_concept_name, unit_concept_name, operator_concept_name,
              visit_occurrence_concept_name,
              measurement_type_concept_name) %>%
     dplyr::summarise(
@@ -51,10 +51,10 @@ get_measurement_table_summary <- function(dataset_measurement_df,filter_missing_
       sd = sd(value_as_number, na.rm = TRUE),
       median = median(value_as_number, na.rm = TRUE),
       min = min(value_as_number, na.rm = TRUE),
-      quantile_5 = quantile(value_as_number, 0.05, na.rm = TRUE),
-      quantile_25 = quantile(value_as_number, 0.25, na.rm = TRUE),
-      quantile_75 = quantile(value_as_number, 0.75, na.rm = TRUE),
-      quantile_95 = quantile(value_as_number, 0.95, na.rm = TRUE),
+      #quantile_5 = quantile(value_as_number, 0.05, na.rm = TRUE),
+      #quantile_25 = quantile(value_as_number, 0.25, na.rm = TRUE),
+      #quantile_75 = quantile(value_as_number, 0.75, na.rm = TRUE),
+      #quantile_95 = quantile(value_as_number, 0.95, na.rm = TRUE),
       max = max(value_as_number, na.rm = TRUE)
     )
   return(dataset_measurement_summary)
