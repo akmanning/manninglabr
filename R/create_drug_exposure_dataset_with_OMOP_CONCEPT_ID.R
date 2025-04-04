@@ -31,8 +31,8 @@ create_drug_exposure_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, que
   } else {
     print("Data set has been previously created.")
   }
+  drug_exposure_df <- read_drug_exposure_bq_export_from_workspace_bucket(query_result_path)
 
-
-  return(list(OMOPCONCEPTID = OMOPCONCEPTID, query_sql = query_sql, query_result_path = query_result_path))
+  return(list(OMOPCONCEPTID = OMOPCONCEPTID, query_sql = query_sql, query_result_path = query_result_path, drug_exposure_df=drug_exposure_df))
 }
 
