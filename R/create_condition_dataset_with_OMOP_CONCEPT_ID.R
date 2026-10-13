@@ -6,7 +6,7 @@
 #' @param query_sql The SQL query to be used to create the dataset.
 #' @return A list containing the OMOPCONCEPTID, query_sql, and query_result_path.
 #' @export
-create_condition_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_sql = condition_query_sql) {
+create_condition_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_sql = query_sql_condition_ancestor) {
   query_sql <- query_sql %>%
     stringr::str_replace_all("XYZ_OMOPCONCEPTID_XYZ", as.character(OMOPCONCEPTID))
 
@@ -39,7 +39,61 @@ create_condition_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_s
   return(list(OMOPCONCEPTID = OMOPCONCEPTID, query_sql = query_sql, query_result_path = query_result_path, dataset_condition_df=dataset_condition_df))
 }
 
+# The query needed to be fixed with v9 because a structure changed in ”cb_critera” breaks the path-based approach
+# Now we use the concept_ancestor table (which provides the complete heirarchical relationship between Concepts
+ query_sql_condition_ancestor <- paste0("
+    SELECT
+      c_occurrence.person_id,
+      c_occurrence.condition_concept_id,
+      c_standard_concept.concept_name as standard_concept_name,
+      c_standard_concept.concept_code as standard_concept_code,
+      c_standard_concept.vocabulary_id as standard_vocabulary,
+      c_occurrence.condition_start_datetime,
+      c_occurrence.condition_end_datetime,
+      c_occurrence.condition_type_concept_id,
+      c_type.concept_name as condition_type_concept_name,
+      c_occurrence.stop_reason,
+      c_occurrence.visit_occurrence_id,
+      visit.concept_name as visit_occurrence_concept_name,
+      c_occurrence.condition_source_value,
+      c_occurrence.condition_source_concept_id,
+      c_source_concept.concept_name as source_concept_name,
+      c_source_concept.concept_code as source_concept_code,
+      c_source_concept.vocabulary_id as source_vocabulary,
+      c_occurrence.condition_status_source_value,
+      c_occurrence.condition_status_concept_id,
+      c_status.concept_name as condition_status_concept_name
+    FROM
+      `", cdr_dataset, ".condition_occurrence` c_occurrence
+    LEFT JOIN `", cdr_dataset, ".concept` c_standard_concept
+      ON c_occurrence.condition_concept_id = c_standard_concept.concept_id
+    LEFT JOIN `", cdr_dataset, ".concept` c_type
+      ON c_occurrence.condition_type_concept_id = c_type.concept_id
+    LEFT JOIN `", cdr_dataset, ".visit_occurrence` v
+      ON c_occurrence.visit_occurrence_id = v.visit_occurrence_id
+    LEFT JOIN `", cdr_dataset, ".concept` visit
+      ON v.visit_concept_id = visit.concept_id
+    LEFT JOIN `", cdr_dataset, ".concept` c_source_concept
+      ON c_occurrence.condition_source_concept_id = c_source_concept.concept_id
+    LEFT JOIN `", cdr_dataset, ".concept` c_status
+      ON c_occurrence.condition_status_concept_id = c_status.concept_id
+    WHERE
+      c_occurrence.condition_concept_id IN (
+        SELECT DISTINCT descendant_concept_id
+        FROM `", cdr_dataset, ".concept_ancestor`
+        WHERE ancestor_concept_id = ", concept_id, "
 
+        UNION DISTINCT
+
+        SELECT ", concept_id, "
+      )
+      AND c_occurrence.condition_concept_id IN (
+        SELECT concept_id
+        FROM `", cdr_dataset, ".concept`
+        WHERE standard_concept = 'S'
+          AND invalid_reason IS NULL
+      )
+  ")
 
 
 
