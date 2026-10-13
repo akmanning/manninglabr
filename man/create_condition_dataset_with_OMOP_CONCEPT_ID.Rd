@@ -5,10 +5,7 @@
 \alias{create_condition_dataset_with_OMOP_CONCEPT_ID}
 \title{Create condition dataset with OMOP_CONCEPT_ID}
 \usage{
-create_condition_dataset_with_OMOP_CONCEPT_ID(
-  OMOPCONCEPTID,
-  query_sql = condition_query_sql
-)
+create_condition_dataset_with_OMOP_CONCEPT_ID(OMOPCONCEPTID, query_sql)
 }
 \arguments{
 \item{OMOPCONCEPTID}{The OMOP_CONCEPT_ID of the condition to be queried.}

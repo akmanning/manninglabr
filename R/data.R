@@ -9,14 +9,6 @@
 #'
 "drug_exposure_query_sql"
 
-#'
-#' This query represents dataset "t1d_cohort_example_disease_concept_set" for domain "condition" and was generated for All of Us Controlled Tier Dataset v7
-#' January 16, 2024
-#'
-#' @format ## `condition_query_sql` is a character vector with 1 element
-#'
-"condition_query_sql"
-
 #' measurement_query_sql
 #' This query represents dataset "creatinine_mass-volume_in_serum_plasma_LOINC_2160-0_OMOP_3016723" for domain "measurement" and was generated for All of Us Controlled Tier Dataset v7
 #' @format ## `measurement_query_sql` is a character vector with 1 element
