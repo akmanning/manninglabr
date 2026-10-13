@@ -4,7 +4,7 @@
 \alias{html_to_bucket}
 \title{html_to_bucket}
 \usage{
-html_to_bucket(name_to_save)
+html_to_bucket(name_to_save, bucket_path_to_save = "data")
 }
 \arguments{
 \item{name_to_save}{the name of the html file to be saved}

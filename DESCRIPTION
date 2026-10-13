@@ -1,6 +1,6 @@
 Package: manninglabr
 Title: Manning Lab Tools
-Version: 1.1.0.9006
+Version: 1.2
 Authors@R: 
     person("Alisa", "Manning", , "amanning@broadinstitute.org", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-0247-902X"))
@@ -8,7 +8,6 @@ Description: Tools and utilities built for the Manning lab research team.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
 URL: https://github.com/akmanning/manninglabr
 BugReports: https://github.com/akmanning/manninglabr/issues
 Depends: 
@@ -33,3 +32,4 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.1

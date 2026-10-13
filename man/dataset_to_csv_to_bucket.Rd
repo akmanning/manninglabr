@@ -4,7 +4,11 @@
 \alias{dataset_to_csv_to_bucket}
 \title{dataset_to_csv_to_bucket}
 \usage{
-dataset_to_csv_to_bucket(name_to_save)
+dataset_to_csv_to_bucket(
+  name_to_save,
+  dataset_df = all_participants$dataset_person_df,
+  bucket_path_to_save = "data"
+)
 }
 \arguments{
 \item{name_to_save}{the name of the dataset to be saved}

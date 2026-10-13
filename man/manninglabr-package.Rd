@@ -19,5 +19,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Alisa Manning \email{amanning@broadinstitute.org} (\href{https://orcid.org/0000-0003-0247-902X}{ORCID})
 
+Authors:
+\itemize{
+  \item Alisa Manning \email{amanning@broadinstitute.org} (\href{https://orcid.org/0000-0003-0247-902X}{ORCID})
+}
+
 }
 \keyword{internal}
