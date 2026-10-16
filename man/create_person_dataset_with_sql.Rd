@@ -21,7 +21,9 @@ create_person_dataset_with_sql(
 \item{col_types}{Result of readr::cols() setting the column types of any desired columns. See example}
 }
 \value{
-a list with the OMOP concept ID, the query SQL, and the path to the query results
+a list with the OMOP concept ID, the query SQL, and the path to the query results.
+The SQL is also written to \code{person_df_<label>_query.sql} in the same directory as the
+CSV files when the data is first created (not rewritten on later runs).
 }
 \description{
 Create a person dataset

@@ -3,7 +3,9 @@
 #' @param label the label for the dataset
 #' @param mount_path The full file system path to the mounted workspace bucket
 #' @param col_types Result of readr::cols() setting the column types of any desired columns. See example
-#' @return a list with the OMOP concept ID, the query SQL, and the path to the query results
+#' @return a list with the OMOP concept ID, the query SQL, and the path to the query results.
+#'   The SQL is also written to `person_df_<label>_query.sql` in the same directory as the
+#'   CSV files when the data is first created.
 #' @export
 #' @examples
 #' \dontrun{res <- create_person_dataset_with_sql(
@@ -47,6 +49,19 @@ create_person_dataset_with_sql <- function(dataset_person_sql, label,
 
     existing <- if (!is.null(mount_path)) Sys.glob(local_glob) else
       system2("gsutil", c("ls", gcs_uri), stdout = TRUE)
+
+    # Save the SQL alongside the data (file name is not matched by the *.csv glob)
+    sql_file <- paste0("person_df_", label, "_query.sql")
+    if (!is.null(mount_path)) {
+      dir.create(file.path(mount_path, rel_dir), showWarnings = FALSE, recursive = TRUE)
+      writeLines(dataset_person_sql, file.path(mount_path, rel_dir, sql_file))
+    } else {
+      tmp_sql <- file.path(tempdir(), sql_file)
+      writeLines(dataset_person_sql, tmp_sql)
+      system2("gsutil", c("cp", tmp_sql, file.path(Sys.getenv("WORKSPACE_BUCKET"), rel_dir, sql_file)),
+              stdout = FALSE, stderr = FALSE)
+    }
+    message(stringr::str_glue("The SQL query was written to {sql_file} in the same directory."))
   } else {
     message("Data set has been previously created.")
   }
