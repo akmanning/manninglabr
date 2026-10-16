@@ -4,12 +4,20 @@
 \alias{col_types_from_query}
 \title{Build readr col_types from a query's BigQuery schema}
 \usage{
-col_types_from_query(sql, billing = Sys.getenv("GOOGLE_PROJECT"))
+col_types_from_query(
+  sql,
+  billing = Sys.getenv("GOOGLE_PROJECT"),
+  default_dataset = Sys.getenv("WORKSPACE_CDR")
+)
 }
 \arguments{
 \item{sql}{SQL query string.}
 
 \item{billing}{Billing project ID.}
+
+\item{default_dataset}{Dataset used to resolve unqualified table names
+(e.g. \code{concept}), as "project.dataset". Defaults to the workspace CDR,
+matching how the query is later run by \code{bigrquery::bq_dataset_query()}.}
 }
 \value{
 A \code{readr::cols()} specification.

@@ -22,10 +22,19 @@ bq_type_to_readr <- function(bq_type) {
 #'
 #' @param sql SQL query string.
 #' @param billing Billing project ID.
+#' @param default_dataset Dataset used to resolve unqualified table names
+#'   (e.g. `concept`), as "project.dataset". Defaults to the workspace CDR,
+#'   matching how the query is later run by `bigrquery::bq_dataset_query()`.
 #' @return A `readr::cols()` specification.
 #' @export
-col_types_from_query <- function(sql, billing = Sys.getenv("GOOGLE_PROJECT")) {
-  fields <- bigrquery::bq_perform_query_schema(sql, billing = billing)
+col_types_from_query <- function(sql,
+                                 billing = Sys.getenv("GOOGLE_PROJECT"),
+                                 default_dataset = Sys.getenv("WORKSPACE_CDR")) {
+  fields <- bigrquery::bq_perform_query_schema(
+    sql,
+    billing = billing,
+    default_dataset = bigrquery::as_bq_dataset(default_dataset)
+  )
   types  <- lapply(fields, function(f) bq_type_to_readr(f$type))
   names(types) <- vapply(fields, function(f) f$name, character(1))
   do.call(readr::cols, types)
