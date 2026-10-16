@@ -1,6 +1,7 @@
 #' @title html_to_bucket
 #' @description This function takes a html file and saves it as a html file in the bucket
 #' @param name_to_save the name of the html file to be saved
+#' @param bucket_path_to_save Folder in the bucket to save the file. default: data
 #' @return a html file in the bucket
 #' @export
 html_to_bucket <- function(name_to_save, bucket_path_to_save="data") {

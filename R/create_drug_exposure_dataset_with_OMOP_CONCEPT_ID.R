@@ -1,10 +1,11 @@
 #' create a dataset with drug exposure data for a given OMOP concept ID
 #' @param OMOPCONCEPTID the OMOP concept ID for the drug exposure
 #' @param query_sql the SQL query to use to create the dataset
+#' @param read_from_workspace_bucket The function that will read in the data frame given a query_result_path
 #' @return a list with the OMOP concept ID, the query SQL, and the path to the query results
 #' @export
 
-create_drug_exposure_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_sql = drug_exposure_query_sql) {
+create_drug_exposure_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_sql, read_from_workspace_bucket) {
   query_sql <- query_sql %>% stringr::str_replace_all("XYZ_OMOPCONCEPTID_XYZ", as.character(OMOPCONCEPTID))
 
   query_result_path <- file.path(
@@ -31,7 +32,7 @@ create_drug_exposure_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, que
   } else {
     print("Data set has been previously created.")
   }
-  drug_exposure_df <- read_drug_exposure_bq_export_from_workspace_bucket(query_result_path)
+  drug_exposure_df <- read_from_workspace_bucket(query_result_path)
 
   return(list(OMOPCONCEPTID = OMOPCONCEPTID, query_sql = query_sql, query_result_path = query_result_path, drug_exposure_df=drug_exposure_df))
 }

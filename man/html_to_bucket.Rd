@@ -8,6 +8,8 @@ html_to_bucket(name_to_save, bucket_path_to_save = "data")
 }
 \arguments{
 \item{name_to_save}{the name of the html file to be saved}
+
+\item{bucket_path_to_save}{Folder in the bucket to save the file. default: data}
 }
 \value{
 a html file in the bucket

@@ -5,10 +5,7 @@
 \alias{create_measurement_dataset_with_OMOP_CONCEPT_ID}
 \title{Create a measurement dataset with OMOP_CONCEPT_ID}
 \usage{
-create_measurement_dataset_with_OMOP_CONCEPT_ID(
-  OMOPCONCEPTID,
-  query_sql = measurement_query_sql
-)
+create_measurement_dataset_with_OMOP_CONCEPT_ID(OMOPCONCEPTID, query_sql)
 }
 \arguments{
 \item{OMOPCONCEPTID}{The OMOP Concept ID of the measurement of interest.}

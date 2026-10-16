@@ -1,70 +1,70 @@
 #' Create a person dataset
 #' @param dataset_person_sql SQL query to create the dataset
 #' @param label the label for the dataset
+#' @param mount_path The full file system path to the mounted workspace bucket
+#' @param col_types Result of readr::cols() setting the column types of any desired columns. See example
 #' @return a list with the OMOP concept ID, the query SQL, and the path to the query results
 #' @export
-#'
-create_person_dataset_with_sql <- function(dataset_person_sql, label) {
-  # remove whitespace from the label
-  label <- stringr::str_replace_all(label, pattern = " ", replacement = "_")
+#' @examples
+#' \dontrun{res <- create_person_dataset_with_sql(
+#' sql, "all participants with earliest visit",
+#'  mount_path = "/home/jupyter/workspace/bucket-for-define-t2d-trait-harmonization"
+#' )}
+#' col_types <- readr::cols(gender = readr::col_character(), 
+#'        race = readr::col_character(), ethnicity = readr::col_character(), 
+#'        sex_at_birth = readr::col_character())
+create_person_dataset_with_sql <- function(dataset_person_sql, label,
+                                           mount_path = NULL,
+                                           col_types = NULL) {
+  label <- stringr::str_replace_all(label, " ", "_")
 
-  query_result_path <- file.path(
-    Sys.getenv("WORKSPACE_BUCKET"),
-    "bq_exports",
-    "person_df_XYZ_LABEL_XYZ",
-    "person_df_XYZ_LABEL_XYZ_*.csv")
-  query_result_path <- stringr::str_replace_all(query_result_path,"XYZ_LABEL_XYZ", label)
+  # Same relative location under both the gs:// bucket and the mount
+  rel_dir   <- file.path("bq_exports", paste0("person_df_", label))
+  file_glob <- paste0("person_df_", label, "_*.csv")
 
-  message(stringr::str_glue(
-    "The data will be written to {query_result_path}. Use this path when reading ",
-    "the data into your notebooks in the future."
-  ))
+  # BigQuery writes here (must be gs://)
+  gcs_uri <- file.path(Sys.getenv("WORKSPACE_BUCKET"), rel_dir, file_glob)
 
-  if (system(paste0("gsutil ls ", query_result_path))) {
-    print("Data set has not been previously created. Creating now.")
+  # We read here (mount if given, otherwise gsutil on the gs:// URI)
+  local_glob <- if (!is.null(mount_path)) file.path(mount_path, rel_dir, file_glob)
 
-    bigrquery::bq_table_save(
-      bigrquery::bq_dataset_query(Sys.getenv("WORKSPACE_CDR"),
-        dataset_person_sql,
-        billing = Sys.getenv("GOOGLE_PROJECT")
-      ),
-      query_result_path,
-      destination_format = "CSV"
-    )
+  message(stringr::str_glue("The data will be written to {gcs_uri}"))
+
+  existing <- if (!is.null(mount_path)) {
+    Sys.glob(local_glob)                              # file.exists() can't expand "*"
   } else {
-    print("Data set has been previously created.")
+    suppressWarnings(system2("gsutil", c("ls", gcs_uri), stdout = TRUE, stderr = FALSE))
   }
 
-  col_types <- readr::cols(
-    gender = readr::col_character(),
-    race = readr::col_character(),
-    ethnicity = readr::col_character(),
-    sex_at_birth = readr::col_character()
-  )
-
-  dataset_person_df <- dplyr::bind_rows(
-    purrr::map(
-      system2("gsutil", args = c("ls", query_result_path), stdout = TRUE, stderr = TRUE),
-      function(csv) {
-        message(stringr::str_glue("Loading {csv}."))
-        chunk <- readr::read_csv(pipe(stringr::str_glue("gsutil cat {csv}")),
-          col_types = col_types,
-          show_col_types = FALSE
-        )
-        if (is.null(col_types)) {
-          col_types <- spec(chunk)
-        }
-        chunk
-      }
+  if (length(existing) == 0) {
+    message("Data set has not been previously created. Creating now.")
+    tb <- bigrquery::bq_dataset_query(
+      Sys.getenv("WORKSPACE_CDR"),
+      dataset_person_sql,
+      billing = Sys.getenv("GOOGLE_PROJECT")
     )
-  )
+    bigrquery::bq_table_save(tb, gcs_uri, destination_format = "CSV")
 
-  dataset_person_df <- dplyr::mutate(dataset_person_df,age = lubridate::year(lubridate::today()) - lubridate::year(date_of_birth))
+    existing <- if (!is.null(mount_path)) Sys.glob(local_glob) else
+      system2("gsutil", c("ls", gcs_uri), stdout = TRUE)
+  } else {
+    message("Data set has been previously created.")
+  }
 
-    return(list(
-    label = label,
-    dataset_person_sql = dataset_person_sql,
-    dataset_person_df = dataset_person_df,
-    query_result_path = query_result_path
-  ))
+  if (is.null(col_types)) {
+    col_types <- col_types_from_query(dataset_person_sql)
+  }
+
+  read_chunk <- function(f) {
+    message(stringr::str_glue("Loading {f}."))
+    src <- if (!is.null(mount_path)) f else pipe(paste("gsutil cat", f))
+    readr::read_csv(src, col_types = col_types, show_col_types = FALSE)
+  }
+  
+  dataset_person_df <- dplyr::bind_rows(purrr::map(existing, read_chunk)) 
+
+  list(label = label,
+       dataset_person_sql = dataset_person_sql,
+       dataset_person_df = dataset_person_df,
+       query_result_path = if (!is.null(mount_path)) local_glob else gcs_uri)
 }

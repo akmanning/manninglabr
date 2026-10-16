@@ -4,9 +4,10 @@
 #' This function creates a dataset of condition data with a specific OMOP_CONCEPT_ID.
 #' @param OMOPCONCEPTID The OMOP_CONCEPT_ID of the condition to be queried.
 #' @param query_sql The SQL query to be used to create the dataset.
+#' @param read_from_workspace_bucket The function that will read in the data frame given a query_result_path
 #' @return A list containing the OMOPCONCEPTID, query_sql, and query_result_path.
 #' @export
-create_condition_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_sql) {
+create_condition_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_sql, read_from_workspace_bucket) {
   query_sql <- query_sql %>%
     stringr::str_replace_all("XYZ_OMOPCONCEPTID_XYZ", as.character(OMOPCONCEPTID))
 
@@ -34,7 +35,7 @@ create_condition_dataset_with_OMOP_CONCEPT_ID <- function(OMOPCONCEPTID, query_s
   } else {
     print("Data set has been previously created.")
   }
-  dataset_condition_df <- read_condition_bq_export_from_workspace_bucket(query_result_path)
+  dataset_condition_df <- read_from_workspace_bucket(query_result_path)
 
   return(list(OMOPCONCEPTID = OMOPCONCEPTID, query_sql = query_sql, query_result_path = query_result_path, dataset_condition_df=dataset_condition_df))
 }

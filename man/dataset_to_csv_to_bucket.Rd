@@ -6,12 +6,16 @@
 \usage{
 dataset_to_csv_to_bucket(
   name_to_save,
-  dataset_df = all_participants$dataset_person_df,
+  dataset_df,
   bucket_path_to_save = "data"
 )
 }
 \arguments{
 \item{name_to_save}{the name of the dataset to be saved}
+
+\item{dataset_df}{Data frame to save}
+
+\item{bucket_path_to_save}{Folder in bucket to use}
 }
 \value{
 a csv file in the bucket

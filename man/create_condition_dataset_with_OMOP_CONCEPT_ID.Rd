@@ -5,12 +5,18 @@
 \alias{create_condition_dataset_with_OMOP_CONCEPT_ID}
 \title{Create condition dataset with OMOP_CONCEPT_ID}
 \usage{
-create_condition_dataset_with_OMOP_CONCEPT_ID(OMOPCONCEPTID, query_sql)
+create_condition_dataset_with_OMOP_CONCEPT_ID(
+  OMOPCONCEPTID,
+  query_sql,
+  read_from_workspace_bucket
+)
 }
 \arguments{
 \item{OMOPCONCEPTID}{The OMOP_CONCEPT_ID of the condition to be queried.}
 
 \item{query_sql}{The SQL query to be used to create the dataset.}
+
+\item{read_from_workspace_bucket}{The function that will read in the data frame given a query_result_path}
 }
 \value{
 A list containing the OMOPCONCEPTID, query_sql, and query_result_path.

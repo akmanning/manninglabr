@@ -4,16 +4,34 @@
 \alias{create_person_dataset_with_sql}
 \title{Create a person dataset}
 \usage{
-create_person_dataset_with_sql(dataset_person_sql, label)
+create_person_dataset_with_sql(
+  dataset_person_sql,
+  label,
+  mount_path = NULL,
+  col_types = NULL
+)
 }
 \arguments{
 \item{dataset_person_sql}{SQL query to create the dataset}
 
 \item{label}{the label for the dataset}
+
+\item{mount_path}{The full file system path to the mounted workspace bucket}
+
+\item{col_types}{Result of readr::cols() setting the column types of any desired columns. See example}
 }
 \value{
 a list with the OMOP concept ID, the query SQL, and the path to the query results
 }
 \description{
 Create a person dataset
+}
+\examples{
+\dontrun{res <- create_person_dataset_with_sql(
+sql, "all participants with earliest visit",
+ mount_path = "/home/jupyter/workspace/bucket-for-define-t2d-trait-harmonization"
+)}
+col_types <- readr::cols(gender = readr::col_character(), 
+       race = readr::col_character(), ethnicity = readr::col_character(), 
+       sex_at_birth = readr::col_character())
 }

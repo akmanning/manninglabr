@@ -5,10 +5,7 @@
 \alias{create_procedure_dataset_with_OMOP_CONCEPT_ID}
 \title{Create procedure dataset with OMOP_CONCEPT_ID}
 \usage{
-create_procedure_dataset_with_OMOP_CONCEPT_ID(
-  OMOPCONCEPTID,
-  query_sql = dataset_procedure_sql
-)
+create_procedure_dataset_with_OMOP_CONCEPT_ID(OMOPCONCEPTID, query_sql)
 }
 \arguments{
 \item{OMOPCONCEPTID}{The OMOP_CONCEPT_ID of the procedure to be queried.}

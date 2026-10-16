@@ -1,9 +1,13 @@
 #' @title dataset_to_csv_to_bucket
 #' @description This function takes a dataset and saves it as a csv file in the bucket
 #' @param name_to_save the name of the dataset to be saved
+#' @param dataset_df Data frame to save
+#' @param bucket_path_to_save Folder in bucket to use
 #' @return a csv file in the bucket
 #' @export
-dataset_to_csv_to_bucket <- function(name_to_save, dataset_df = all_participants$dataset_person_df, bucket_path_to_save="data") {
+dataset_to_csv_to_bucket <- function(name_to_save, 
+                                     dataset_df, 
+                                     bucket_path_to_save="data") {
   # create time stamp and get username
   today <-  strftime(lubridate::now(), "%Y-%m-%d")
   owner <- str_replace(string = Sys.getenv("OWNER_EMAIL"),pattern="@researchallofus.org",replacement = "")

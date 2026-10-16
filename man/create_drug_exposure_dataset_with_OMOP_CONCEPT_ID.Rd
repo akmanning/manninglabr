@@ -7,13 +7,16 @@
 \usage{
 create_drug_exposure_dataset_with_OMOP_CONCEPT_ID(
   OMOPCONCEPTID,
-  query_sql = drug_exposure_query_sql
+  query_sql,
+  read_from_workspace_bucket
 )
 }
 \arguments{
 \item{OMOPCONCEPTID}{the OMOP concept ID for the drug exposure}
 
 \item{query_sql}{the SQL query to use to create the dataset}
+
+\item{read_from_workspace_bucket}{The function that will read in the data frame given a query_result_path}
 }
 \value{
 a list with the OMOP concept ID, the query SQL, and the path to the query results

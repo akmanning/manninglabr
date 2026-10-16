@@ -39,7 +39,7 @@ create_condition_occurrences_dataset_with_OMOP_CONCEPT_ID <- function(
   } else {
     print("Data set has been previously created.")
   }
-  dataset_condition_occurences_df <- read_from_workspace_bucket(query_result_path)
+  dataset_condition_occurrences_df <- read_from_workspace_bucket(query_result_path)
 
   return(list(OMOPCONCEPTID = OMOPCONCEPTID, query_sql = query_sql, query_result_path = query_result_path, dataset_condition_occurrences_df=dataset_condition_occurrences_df))
 

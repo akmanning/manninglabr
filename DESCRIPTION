@@ -12,7 +12,6 @@ URL: https://github.com/akmanning/manninglabr
 BugReports: https://github.com/akmanning/manninglabr/issues
 Depends: 
     R (>= 2.10)
-LazyData: true
 Imports: 
     bigrquery,
     dplyr,
@@ -24,11 +23,9 @@ Imports:
     purrr,
     readr,
     rlang,
-    skimr,
     stats,
     stringr,
-    table1,
-    utils
+    table1
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
